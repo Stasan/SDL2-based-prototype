@@ -12,7 +12,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${projectDir}/cmake-build-debug")
 # Add all c++ source files under the src directory
 file(GLOB SOURCES "src/*.cc")
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+if(ANDROID)
+    # On android the final binary is a shared library not an executable.
+    add_library(${PROJECT_NAME} SHARED ${SOURCES})
+else()
+    add_executable(${PROJECT_NAME} ${SOURCES})
+endif()
 
 # Add all headers files under the include directory
 target_include_directories(${PROJECT_NAME} PRIVATE include)
